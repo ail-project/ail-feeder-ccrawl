@@ -110,57 +110,6 @@ curl http://ail-feeder-ccrawl:8000/get_uris_for_hash/70d9bbde-f43a-489a-a9dc-31b
   "status": "DONE"
 }
 ```
-
-### Request collected uris for FQDN "www.circl.lu"
-
-initial query
-```
-curl -X POST http://ail-feeder-ccrawl:8000/get_uris_for_fqdn \
-    -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer VeryNiceAPIKey' \
-    -d '{
-             "fqdn": "www.circl.lu",
-             "years": [2024, 2025]
-        }'
-{"job_id":"70d9bbde-f43a-489a-a9dc-31bea7cb9b90"}
-```
-
-Getting status
-```
-curl http://ail-feeder-ccrawl:8000/get_uris_for_fqdn/70d9bbde-f43a-489a-a9dc-31bea7cb9b90 \
-    -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer VeryNiceAPIKey' \
-{"stage":50.0,"status":"RUNNING"}
-```
-
-Final result
-```
-curl http://ail-feeder-ccrawl:8000/get_uris_for_fqdn/70d9bbde-f43a-489a-a9dc-31bea7cb9b90 \
-    -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer VeryNiceAPIKey' | jq .
-{
-  "result": [
-    {
-      "sha1": "783b1eff6765fa5ee07646ba9c6a7f1dcda376fe",
-      "timestamp": 1708646400,
-      "url": "https://www.circl.lu/advisory/CVE-2015-5721/"
-    },
-    {
-      "sha1": "46444dbcc38a0a1dd397b72e2035d40ca4568b56",
-      "timestamp": 1708646400,
-      "url": "https://www.circl.lu/contact/"
-    },
-    [REDACTED]
-    {
-      "sha1": "20019274a4245a5ad2442fd7a72556bda4924c1f",
-      "timestamp": 1708646400,
-      "url": "https://www.circl.lu/doc/misp/administration/"
-    }
-  ],
-  "stage": "100",
-  "status": "DONE"
-}
-```
 ### Request collected FQDNs for domain "circl.lu"
 
 Initial Query
