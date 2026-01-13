@@ -1,0 +1,8 @@
+clickhouse:
+  host: localhost
+  port: 9000
+  user: default
+  password: ""
+  database: COMMON_CRAWL
+api_keys:
+  - secret123demo
