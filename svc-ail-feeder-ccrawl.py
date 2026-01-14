@@ -92,6 +92,7 @@ app = Flask(__name__)
 logger = logging.getLogger(__name__)
 
 CONFIG_PATH = Path(__file__).with_name("config_cc4ail.yaml")
+VERSION = 0
 
 
 def load_config(path: Path) -> dict:
@@ -621,6 +622,27 @@ def create_dom_job():
 
 
 #### Job Status Route
+@app.get("/version")
+def get_version():
+    """
+    This webpage act as SLB HeartBeat
+    It validate fully access and queriable status to the DB
+    """
+    try:
+        client = get_client()
+        # Get current year
+        years = list(range(2015, datetime.now().year + 1))
+        tables = get_all_ccmain_tables(client, years)
+        for table_name in tables:
+            sql = "SELECT distinct(url_host_name) " f"FROM {table_name} limit 1"
+            result = client.execute(sql)
+            if not isinstance(result, list):
+                result = list(result or [])
+            if len(result) == 1:
+                return jsonify({"status": "up", "version": VERSION})
+        return jsonify({"status": "down", "version": VERSION})
+    except:
+        return jsonify({"status": "down", "version": VERSION})
 
 
 @app.get("/get_uris_for_fqnd/<job_id>")
