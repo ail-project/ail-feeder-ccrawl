@@ -298,7 +298,7 @@ def get_all_ccmain_tables(client: Client, years: list) -> list[str]:
         raise ValueError("No CCMAIN tables found in database")
     ccmain_tables.sort(key=lambda t: int(pattern.fullmatch(t).group(1)))
     # Now we limit to the
-    logging.info("Found CCMAIN tables: %s", ccmain_tables)
+    logging.debug("Found CCMAIN tables: %s", ccmain_tables)
     return ccmain_tables
 
 
@@ -639,10 +639,10 @@ def get_version():
             if not isinstance(result, list):
                 result = list(result or [])
             if len(result) == 1:
-                return jsonify({"status": "up", "version": VERSION})
-        return jsonify({"status": "down", "version": VERSION})
+                return jsonify({"status": "up", "version": VERSION}), 200
+        return jsonify({"status": "down", "version": VERSION}), 500
     except:
-        return jsonify({"status": "down", "version": VERSION})
+        return jsonify({"status": "down", "version": VERSION}), 500
 
 
 @app.get("/get_uris_for_fqnd/<job_id>")
