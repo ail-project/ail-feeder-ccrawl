@@ -464,6 +464,7 @@ def sql_get_fqdns_for_dom(job_id: str):
     fqdns = []
 
     for table_name in tables:
+
         sql = (
             "SELECT distinct(url_host_name) "
             f"FROM {table_name} WHERE url_host_name like %(dom)s"
@@ -472,7 +473,6 @@ def sql_get_fqdns_for_dom(job_id: str):
         if domain.startswith("."):  # Ensure we ask for a domain
             domain = domain[1::]
 
-        print(sql)
         result = client.execute(sql, params={"dom": "%." + domain})
         if not isinstance(result, list):
             result = list(result or [])
@@ -657,4 +657,4 @@ def get_job(job_id):
 # --- Main ---
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="::", port=8000)
